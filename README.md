@@ -63,7 +63,7 @@ git clone <https://github.com/Gauri0710/CRM-TICKET-MODULE.git>
    
 6. **Run the Project**
    - Open your browser and navigate to:
-     http://localhost/crm_project/index.php
+   http://localhost/crm-ticket-system/index.php
    - Login with your credentials to start using the CRM.
      
 
