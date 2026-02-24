@@ -1,0 +1,410 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e8f1ff;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #34495e;
+}
+
+/* Content */
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ecf0f1;
+    overflow-y: auto;
+}
+
+.dashboard-content h2 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.dashboard-content p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.stats-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1 1 200px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stat-card h3 {
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.users-content h2 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.btn-add {
+    display: inline-block;
+    background: #28a745;
+    color: #fff;
+    padding: 8px 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.btn-add:hover {
+    background: #218838;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background: #007bff;
+    color: #fff;
+}
+
+.btn-edit {
+    background: #ffc107;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.btn-edit:hover {
+    background: #e0a800;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+.user-form {
+    max-width: 400px;
+    margin-top: 15px;
+}
+
+.user-form input,
+.user-form select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.user-form button {
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.user-form button:hover {
+    background: #218838;
+}
+.user-form {
+    max-width: 400px;
+    margin-top: 15px;
+}
+
+.user-form input,
+.user-form select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.user-form button {
+    width: 100%;
+    padding: 12px;
+    background: #ffc107;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.user-form button:hover {
+    background: #e0a800;
+}
+
+.manage-container {
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1100px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.manage-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+.manage-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.manage-table th,
+.manage-table td {
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.manage-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.manage-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.manage-table tr:hover {
+    background-color: #f1f1f1;
+    transition: 0.2s;
+}
+
+.status-select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #888;
+    outline: none;
+}
+
+.update-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.update-btn:hover {
+    background-color: #218838;
+}
+.ticket-edit-box {
+    width: 60%;
+    background: #ffffff;
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    font-family: Arial, sans-serif;
+}
+
+.ticket-edit-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ticket-edit-box label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.ticket-edit-box p {
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.ticket-edit-box select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    margin-top: 5px;
+    font-size: 15px;
+    background: #fafafa;
+}
+
+.ticket-edit-box .btn {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s ease;
+}
+
+.ticket-edit-box .btn:hover {
+    background: #0056b3;
+}
+/* ===== Assignee Panel Styling ===== */
+
+body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.assignee-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.assignee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.assignee-header h1 {
+    margin: 0;
+}
+
+.logout-btn {
+    background: #ff4d4d;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background: #e60000;
+}
+
+.ticket-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.ticket-table th {
+    background: #667eea;
+    color: white;
+    padding: 12px;
+}
+
+.ticket-table td {
+    padding: 12px;
+}
+
+.ticket-table tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+.status-open {
+    color: orange;
+    font-weight: bold;
+}
+
+.status-resolved {
+    color: green;
+    font-weight: bold;
+}
+
+.resolve-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.resolve-btn:hover {
+    background: #218838;
+}
+
+
+
+
+

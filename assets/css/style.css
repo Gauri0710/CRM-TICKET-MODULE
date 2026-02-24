@@ -1,0 +1,76 @@
+/* ------------------ Body and Background ------------------ */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e8f1ff;  /* soft clean background */
+    margin: 0;
+    padding: 0;
+    color: #000;
+}
+
+/* ------------------ Container ------------------ */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);  /* semi-transparent black */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* ------------------ Card ------------------ */
+.card {
+    background-color: rgba(255, 255, 255, 0.9); /* white card with some transparency */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    color: #000; /* text color inside card */
+}
+
+/* ------------------ Headings ------------------ */
+h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* ------------------ Buttons ------------------ */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px 5px 5px 0;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+/* Button colors */
+.btn-primary { background-color: #007bff; color: #fff; }
+.btn-success { background-color: #28a745; color: #fff; }
+.btn-warning { background-color: #ffc107; color: #000; }
+.btn-info    { background-color: #17a2b8; color: #fff; }
+.btn-danger  { background-color: #dc3545; color: #fff; }
+
+/* Button hover effect */
+.btn:hover {
+    opacity: 0.85;
+}
+
+/* ------------------ Paragraphs ------------------ */
+p {
+    margin: 5px 0 15px 0;
+}
+
+/* ------------------ Responsive ------------------ */
+@media (max-width: 600px) {
+    .container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
