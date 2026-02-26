@@ -1,36 +1,36 @@
 <?php
 include("../config/db.php"); 
 
-//get id from link
+// Get id from link
 if(!isset($_GET['id'])){
     echo "Invalid Ticket Id";
     exit();
 }
 
-$id=$_GET['id'];
+$id = (int) $_GET['id'];  // secure
 
-//fetch ticket details
+// Fetch ticket details
+$ticket_sql = $conn->query("SELECT * FROM tickets WHERE id = $id");
 
-$ticket_sql=$conn->query("SELECT * from tickets WHERE id='$id'");
 if(!$ticket_sql){
     echo "Database Error: " . $conn->error;
     exit();
 }
 
-$ticket=$ticket_sql->fetch_assoc();
+$ticket = $ticket_sql->fetch_assoc();
 
 if(!$ticket){
     echo "Ticket not found!";
     exit();
 }
 
-//fetch all users for reassign
-$users=$conn->query("SELECT id,name FROM users");
+// Fetch all users for reassign
+$users = $conn->query("SELECT id, name FROM users");
 ?>
 
 <style>
 .page-edit-ticket-bg {
-    background-image: url('../assets/admin.jpg');
+    background:#e8f4ff;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -42,16 +42,19 @@ $users=$conn->query("SELECT id,name FROM users");
 <div class="page-edit-ticket-bg">
 
 <link rel="stylesheet" href="css/style.css">
+
 <div class="ticket-edit-box">
-    <h2>Edit Ticket(Admin)</h2>
+    <h2>Edit Ticket (Admin)</h2>
+
     <form action="update_ticket_admin.php" method="POST">
         <input type="hidden" name="ticket_id" value="<?= $ticket['id']; ?>">
 
-        <label><strong>Ticket Name:</strong></label>
-        <p><?= $ticket['name']; ?></p>
+        <!-- ✅ FIXED HERE -->
+        <label><strong>Ticket Title:</strong></label>
+        <p><?= htmlspecialchars($ticket['title'] ?? ''); ?></p>
 
         <label><strong>Description:</strong></label>
-        <p><?= $ticket['description']; ?></p>
+        <p><?= htmlspecialchars($ticket['description'] ?? ''); ?></p>
 
         <label><strong>Change Status:</strong></label>
         <select name="status">
@@ -68,7 +71,7 @@ $users=$conn->query("SELECT id,name FROM users");
             <?php while($u = $users->fetch_assoc()) { ?>
                 <option value="<?= $u['id']; ?>" 
                     <?= $ticket['assigned_to']==$u['id'] ? "selected" : "" ?>>
-                    <?= $u['name']; ?>
+                    <?= htmlspecialchars($u['name']); ?>
                 </option>
             <?php } ?>
         </select>

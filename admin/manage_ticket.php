@@ -1,10 +1,10 @@
 <?php
 
-
 if (isset($_GET['msg']) && $_GET['msg'] == 'updated') {
     echo "<p style='color:green; font-weight:bold;'>Ticket Updated Successfully!</p>";
 }
-//fetch all tickets
+
+// Fetch all tickets with author and assignee names
 $sql = "SELECT t.*, 
         u1.name AS created_by_name,
         u2.name AS assigned_to_name
@@ -29,7 +29,7 @@ $result = $conn->query($sql);
 <div class="manage-container">
     <h2>Admin - Manage Tickets</h2>
 
-    <table class="manage-table">
+    <table class="manage-table" border="1" cellpadding="10" cellspacing="0">
         <tr>
             <th>ID</th>
             <th>Title</th>
@@ -40,39 +40,44 @@ $result = $conn->query($sql);
             <th>Actions</th>
         </tr>
 
-        <?php while($ticket = $result->fetch_assoc()): ?>
-        <tr>
-            <td><?= $ticket['id'] ?></td>
-            <td><?= htmlspecialchars($ticket['name']) ?></td>
-            <td><?= htmlspecialchars($ticket['created_by_name']) ?></td>
+        <?php if ($result && $result->num_rows > 0): ?>
+            <?php while($ticket = $result->fetch_assoc()): ?>
+            <tr>
+                <td><?= $ticket['id'] ?></td>
 
-            <td>
-                <?= $ticket['assigned_to_name'] 
-                    ? htmlspecialchars($ticket['assigned_to_name']) 
-                    : "<span style='color:red'>Not Assigned</span>" ?>
-            </td>
+                <!-- ✅ FIXED HERE -->
+                <td><?= htmlspecialchars($ticket['title'] ?? '') ?></td>
 
-            <td><?= ucfirst($ticket['status']) ?></td>
+                <td><?= htmlspecialchars($ticket['created_by_name'] ?? '') ?></td>
 
-            <td>
-                <?php if($ticket['file']): ?>
-                    <a href="<?= $ticket['file'] ?>" target="_blank">View</a>
-                <?php else: ?>
-                    No File
-                <?php endif; ?>
-            </td>
+                <td>
+                    <?= !empty($ticket['assigned_to_name']) 
+                        ? htmlspecialchars($ticket['assigned_to_name']) 
+                        : "<span style='color:red'>Not Assigned</span>" ?>
+                </td>
 
-            <td>
-                <a href="admin_edit_ticket.php?id=<?= $ticket['id'] ?>" class="btn btn-info">Edit</a>
-                
-            </td>
+                <td><?= htmlspecialchars(ucfirst($ticket['status'] ?? '')) ?></td>
 
-        </tr>
-        <?php endwhile; ?>
+                <td>
+                    <?php if (!empty($ticket['file'])): ?>
+                        <a href="<?= htmlspecialchars($ticket['file']) ?>" target="_blank">View</a>
+                    <?php else: ?>
+                        No File
+                    <?php endif; ?>
+                </td>
+
+                <td>
+                    <a href="admin_edit_ticket.php?id=<?= $ticket['id'] ?>" class="btn btn-info">Edit</a>
+                </td>
+
+            </tr>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="7" style="text-align:center;">No tickets found</td>
+            </tr>
+        <?php endif; ?>
     </table>
-
-    <br>
-    
 
 </div>
 

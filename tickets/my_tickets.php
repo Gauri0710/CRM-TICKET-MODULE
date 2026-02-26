@@ -70,29 +70,34 @@ if ($role == "author") {
 <?php if ($tickets && $tickets->num_rows > 0): ?>
     <?php while ($ticket = $tickets->fetch_assoc()): ?>
         <tr>
-            <td><?= $ticket['id'] ?></td>
+            <td><?php echo $ticket['id']; ?></td>
 
-            <td><?= htmlspecialchars($ticket['title'] ?? '-') ?></td>
+            <td><?php echo htmlspecialchars($ticket['title'] ?? '-'); ?></td>
 
-            <td><?= htmlspecialchars($ticket['description'] ?? '-') ?></td>
+            <td><?php echo htmlspecialchars($ticket['description'] ?? '-'); ?></td>
 
-            <td><?= htmlspecialchars($ticket['status'] ?? '-') ?></td>
+            <td><?php echo htmlspecialchars($ticket['status'] ?? '-'); ?></td>
 
             <?php if ($role == "author"): ?>
-                <td><?= htmlspecialchars($ticket['assignee_name'] ?? '-') ?></td>
+                <td><?php echo htmlspecialchars($ticket['assignee_name'] ?? '-'); ?></td>
             <?php else: ?>
-                <td><?= htmlspecialchars($ticket['author_name'] ?? '-') ?></td>
+                <td><?php echo htmlspecialchars($ticket['author_name'] ?? '-'); ?></td>
             <?php endif; ?>
 
-            <td><?= $ticket['created_at'] ?? '-' ?></td>
+            <td><?php echo $ticket['created_at'] ?? '-'; ?></td>
 
-            <td><?= $ticket['updated_at'] ?? '-' ?></td>
+            <td><?php echo $ticket['updated_at'] ?? '-'; ?></td>
 
             <td>
                 <?php if ($role == "author"): ?>
-                    <a href="update_ticket.php?id=<?= $ticket['id'] ?>" class="btn btn-warning">Edit</a>
+                    <!-- ✅ FIXED EDIT BUTTON -->
+                    <a href="update_ticket.php?id=<?php echo urlencode($ticket['id']); ?>">
+                        Edit
+                    </a>
                 <?php elseif ($role == "assignee"): ?>
-                    <a href="update_status.php?id=<?= $ticket['id'] ?>" class="btn btn-success">Update Status</a>
+                    <a href="update_status.php?id=<?php echo urlencode($ticket['id']); ?>">
+                        Update Status
+                    </a>
                 <?php endif; ?>
             </td>
         </tr>
@@ -106,7 +111,7 @@ if ($role == "author") {
 </table>
 
 <br>
-<a href="../dashboard/index.php" class="btn btn-info">Back</a>
+<a href="../dashboard/index.php">Back</a>
 
 </div>
 </div>

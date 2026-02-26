@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 
 // Redirect if not logged in
 if (!isset($_SESSION["user_id"])) {
@@ -24,15 +24,15 @@ if (!$ticket_id) {
     exit();
 }
 
-// Fetch ticket
-$stmt = $conn->prepare("SELECT * FROM tickets WHERE id=? AND created_by=?");
-$stmt->bind_param("ii", $ticket_id, $user_id);
+// Fetch ticket (REMOVED created_by condition)
+$stmt = $conn->prepare("SELECT * FROM tickets WHERE id=?");
+$stmt->bind_param("i", $ticket_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $ticket = $result->fetch_assoc();
 
 if (!$ticket) {
-    echo "Ticket not found or permission denied.";
+    echo "Ticket not found.";
     exit();
 }
 
@@ -41,73 +41,31 @@ $message = "";
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $name = trim($_POST["name"] ?? "");
+    $title = trim($_POST["title"] ?? "");
     $description = trim($_POST["description"] ?? "");
-    $assigned_to = $_POST["assigned_to"] ?? NULL;
-
-    $old_assigned_to = $ticket['assigned_to'] ?? NULL;
-    $old_assigned_at = $ticket['assigned_at'] ?? NULL;
-
-    // Set assigned_at only if assignee changed
-    if ($old_assigned_to != $assigned_to) {
-        $assigned_at = !empty($assigned_to) ? date("Y-m-d H:i:s") : NULL;
-    } else {
-        $assigned_at = $old_assigned_at;
-    }
-
-    // File handling
-    $file_path = $ticket['file'] ?? NULL;
-
-    if (isset($_FILES["file"]) && $_FILES["file"]["error"] === 0) {
-
-        $upload_dir = "../uploads/";
-
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0777, true);
-        }
-
-        $filename = basename($_FILES["file"]["name"]);
-        $file_path = $upload_dir . time() . "_" . $filename;
-
-        if (!move_uploaded_file($_FILES["file"]["tmp_name"], $file_path)) {
-            $message = "File upload failed.";
-        }
-    }
+    $assigned_to = !empty($_POST["assigned_to"]) ? $_POST["assigned_to"] : NULL;
 
     // Validation
-    if (empty($name) || empty($description)) {
+    if (empty($title) || empty($description)) {
         $message = "Title and Description are required.";
     } else {
 
+        // REMOVED created_by condition
         $stmt_update = $conn->prepare(
             "UPDATE tickets 
-             SET name=?, description=?, file=?, assigned_to=?, assigned_at=? 
-             WHERE id=? AND created_by=?"
+             SET title=?, description=?, assigned_to=? 
+             WHERE id=?"
         );
 
         $stmt_update->bind_param(
-            "sssisii",
-            $name,
+            "ssii",
+            $title,
             $description,
-            $file_path,
             $assigned_to,
-            $assigned_at,
-            $ticket_id,
-            $user_id
+            $ticket_id
         );
 
         if ($stmt_update->execute()) {
-
-            if (!empty($assigned_to)) {
-                $update_role = $conn->prepare(
-                    "UPDATE users 
-                     SET role='assignee' 
-                     WHERE id=? AND role!='admin'"
-                );
-                $update_role->bind_param("i", $assigned_to);
-                $update_role->execute();
-            }
-
             header("Location: my_tickets.php?success=1");
             exit();
         } else {
@@ -139,11 +97,11 @@ $user_result = $conn->query("SELECT id, name FROM users WHERE id != $user_id");
     </p>
 <?php endif; ?>
 
-<form method="POST" enctype="multipart/form-data">
+<form method="POST">
 
 <label>Title:</label>
-<input type="text" name="name"
-       value="<?= htmlspecialchars($ticket["name"] ?? '') ?>"><br><br>
+<input type="text" name="title"
+       value="<?= htmlspecialchars($ticket["title"] ?? '') ?>"><br><br>
 
 <label>Description:</label>
 <textarea name="description"><?= htmlspecialchars($ticket["description"] ?? '') ?></textarea><br><br>
@@ -158,18 +116,6 @@ $user_result = $conn->query("SELECT id, name FROM users WHERE id != $user_id");
         </option>
     <?php endwhile; ?>
 </select><br><br>
-
-<label>File (Optional):</label>
-<input type="file" name="file"><br><br>
-
-<?php if (!empty($ticket['file'])): ?>
-    <p>
-        <strong>Current File:</strong>
-        <a href="<?= htmlspecialchars($ticket['file']) ?>" target="_blank">
-            <?= basename($ticket['file']) ?>
-        </a>
-    </p>
-<?php endif; ?>
 
 <button type="submit">Update Ticket</button>
 <a href="my_tickets.php">Back</a>

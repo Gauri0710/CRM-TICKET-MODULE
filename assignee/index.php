@@ -19,34 +19,70 @@ $result = $stmt->get_result();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Assignee Panel</title>
+    <title>Assignee Dashboard</title>
     <link rel="stylesheet" href="../admin/css/style.css">
 </head>
 <body>
 
 <div class="assignee-container">
 
-    <h2>Assignee Panel</h2>
-    <p>Welcome, <?php echo $_SESSION['user_name']; ?></p>
-    <a href="../auth/logout.php" class="logout-btn">Logout</a>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+            <h2>Assignee Dashboard</h2>
+            <p>Welcome, <strong><?php echo $_SESSION['user_name']; ?></strong></p>
+        </div>
+        <a href="../auth/logout.php" class="logout-btn">Logout</a>
+    </div>
 
-    <h3>Assigned Tickets</h3>
+    <h3>Your Assigned Tickets</h3>
 
-    <table class="ticket-table">
+    <table class="ticket-table" border="1" cellpadding="8">
         <tr>
             <th>ID</th>
             <th>Title</th>
+            <th>Description</th>
+            <th>File</th>
             <th>Status</th>
+            <th>Update</th>
         </tr>
 
-        <?php while($row = $result->fetch_assoc()) { ?>
-        <tr>
-            <td><?php echo $row['id']; ?></td>
-            <td><?php echo $row['title']; ?></td>
-            <td class="<?php echo $row['status'] == 'Resolved' ? 'status-resolved' : 'status-open'; ?>">
-                <?php echo $row['status']; ?>
-            </td>
-        </tr>
+        <?php if($result->num_rows > 0) { ?>
+            <?php while($row = $result->fetch_assoc()) { ?>
+            <tr>
+                <td><?php echo $row['id']; ?></td>
+                <td><?php echo htmlspecialchars($row['title']); ?></td>
+                <td><?php echo htmlspecialchars($row['description']); ?></td>
+
+                <td>
+                    <?php if(!empty($row['file'])) { ?>
+                        <a href="../<?php echo $row['file']; ?>" target="_blank">View</a>
+                    <?php } else { ?>
+                        No File
+                    <?php } ?>
+                </td>
+
+                <td><?php echo ucfirst($row['status']); ?></td>
+
+                <td>
+                    <form method="POST" action="update_status.php">
+                        <input type="hidden" name="ticket_id" value="<?php echo $row['id']; ?>">
+
+                        <select name="status">
+                            <option value="pending" <?php if($row['status']=="pending") echo "selected"; ?>>Pending</option>
+                            <option value="inprogress" <?php if($row['status']=="inprogress") echo "selected"; ?>>In Progress</option>
+                            <option value="completed" <?php if($row['status']=="completed") echo "selected"; ?>>Completed</option>
+                            <option value="onhold" <?php if($row['status']=="onhold") echo "selected"; ?>>On Hold</option>
+                        </select>
+
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+            </tr>
+            <?php } ?>
+        <?php } else { ?>
+            <tr>
+                <td colspan="6">No tickets assigned.</td>
+            </tr>
         <?php } ?>
 
     </table>
